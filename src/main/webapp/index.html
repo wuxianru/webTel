@@ -1,0 +1,45 @@
+<html ng-app>
+<head>
+<script src="http://localhost/at/angular/angular.js"></script>
+<script src="http://localhost/at/angular/angular-resource.js"></script>
+<script src="ctljs/host.js"></script>
+<script>
+	(function(angular) {
+		var mod = angular.module('ng');
+		mod.directive("ngScreen", function() {
+			return function(scope, element, attrs) {
+				scope.$watch(attrs.ngScreen, function() {
+					element.html(scope[attrs.ngScreen]);
+					window.scrollTo(1, 999999);
+				});
+			};
+		});
+		mod.directive("ngEnterdown", function() {
+			return function(scope, element, attrs) {
+				element.bind('keydown', function(event) {
+					if (event.which == 13) {
+						scope.$apply(attrs.ngEnterdown);
+					}
+
+				})
+			}
+		});
+
+	})(angular);
+</script>
+</head>
+<body>
+	<div ng-controller="HostCtl">
+		<form name="host" ng-submit="connect()">
+			<input type="text" ng-model="host.ip" placeholder="ip"> <input
+				type="text" ng-model="host.port" placeholder="port"> <input
+				type="submit" value="connect"> {{resp.resMsg}} {{host.ip}}
+		</form>
+		<div ng-Screen="output"></div>
+		<input type="text" ng-model="command.line" ng-Enterdown="execute()"
+			placeholder="command here"><input type="button" value="enter"
+			ng-click="execute()"><input type="button" value="refresh"
+			ng-click="refresh()">
+	</div>
+</body>
+</html>
